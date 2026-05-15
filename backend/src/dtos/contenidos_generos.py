@@ -1,0 +1,15 @@
+from datetime import datetime
+from pydantic import BaseModel
+
+
+class CreateContenidoGenerosDTO(BaseModel):
+    contenido_id: int
+    genero_id: int
+
+
+class ContenidoGenerosResponseDTO(BaseModel):
+    contenido_id: int
+    genero_id: int
+    
+
+    model_config = {"from_attributes": True}
