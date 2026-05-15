@@ -10,8 +10,8 @@ class CreatePerfilesDTO(BaseModel):
 
 class PerfilesResponseDTO(BaseModel):
     id: int
-    cunta_id: str
-    nombre: int
+    cuenta_id: int
+    nombre: str
     es_infantil: bool
     avatar: str
     bloqueado_hasta: datetime
