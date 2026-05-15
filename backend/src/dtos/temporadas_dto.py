@@ -13,6 +13,6 @@ class TemporadasResponseDTO(BaseModel):
     contenido_id: int
     numero: int
     anio: int
-    created_at: datetime
+
 
     model_config = {"from_attributes": True}
