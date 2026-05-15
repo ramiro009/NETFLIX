@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -11,7 +12,6 @@ class ContenidoResponseDTO(BaseModel):
     id: int
     titulo: str
     tipo: int
-    tipo: str
     anio: int
     descripcion: str
     duracion_min: int
