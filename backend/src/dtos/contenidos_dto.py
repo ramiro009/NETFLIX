@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from datetime import datetime
 
 class CreateContenidoDTO(BaseModel):
     titulo: str
@@ -11,7 +11,7 @@ class ContenidoResponseDTO(BaseModel):
     id: int
     titulo: str
     tipo: int
-    tipo: str
+
     anio: int
     descripcion: str
     duracion_min: int

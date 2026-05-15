@@ -10,3 +10,4 @@ class Temporadas(Base):
     contenido_id = Column(Integer, ForeignKey("contenidos.id"), nullable=False)
     numero = Column(Integer, nullable=False)
     anio = Column(Integer)
+
