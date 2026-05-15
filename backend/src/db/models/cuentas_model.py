@@ -4,7 +4,7 @@ from sqlalchemy.sql import func
 from src.db.connection import Base
 
 
-class User(Base):
+class Cuentas(Base):
     __tablename__ = "cuentas"
 
     id = Column(Integer, primary_key=True)
