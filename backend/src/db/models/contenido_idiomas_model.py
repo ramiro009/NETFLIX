@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 
 from src.db.connection import Base
 
@@ -9,4 +9,4 @@ class ContenidoIdiomas(Base):
     id = Column(Integer, primary_key=True)
     contenido_id = Column(Integer, ForeignKey("contenidos.id"), nullable=False)
     idioma_id = Column(Integer, ForeignKey("idiomas.id"), nullable=False)
-    tipo = Column(String(20), nullable=False)
+    tipo = Column(Enum('audio', 'subtitulo', name='tipo_audio_sub'), nullable=False)

@@ -12,4 +12,4 @@ class Contenidos(Base):
     anio = Column(Integer)
     descripcion = Column(Text, nullable=True)
     duracion_min = Column(Integer)
-    clasificacion_edad = Column(String, nullable=False)
+    clasificacion_edad = Column(Enum('ATP', '+13', '+16', '+18', name='tipo_clasificacion'), nullable=False)
