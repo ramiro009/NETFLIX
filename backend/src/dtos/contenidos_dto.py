@@ -7,14 +7,16 @@ class CreateUserDTO(BaseModel):
     tipo: str
     clasificacion_edad: str
 
-class UserResponseDTO(BaseModel):
+
+class ContenidoResponseDTO(BaseModel):
     id: int
     titulo: str
     tipo: int
+    tipo: str
     anio: int
     descripcion: str
     duracion_min: int
     clasificacio_edad: str
-    
+
 
     model_config = {"from_attributes": True}
