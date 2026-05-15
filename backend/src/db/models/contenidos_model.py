@@ -1,0 +1,15 @@
+from sqlalchemy import Column, Enum, Integer, String, Text
+
+from src.db.connection import Base
+
+
+class Contenido(Base):
+    __tablename__ = "contenidos"
+
+    id = Column(Integer, primary_key=True)
+    titulo = Column(String(255), nullable=False)
+    tipo = Column(Enum("pelicula", "serie", name="tipo_contenido"), nullable=False)
+    anio = Column(Integer)
+    descripcion = Column(Text, nullable=True)
+    duracion_min = Column(Integer)
+    clasificacion_edad = Column(String, nullable=False)
