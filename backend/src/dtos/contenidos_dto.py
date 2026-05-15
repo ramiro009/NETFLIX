@@ -1,8 +1,7 @@
-from datetime import datetime
 from pydantic import BaseModel
 
 
-class CreateUserDTO(BaseModel):
+class CreateContenidoDTO(BaseModel):
     titulo: str
     tipo: str
     clasificacion_edad: str

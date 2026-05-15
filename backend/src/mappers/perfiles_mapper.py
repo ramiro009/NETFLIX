@@ -4,3 +4,4 @@ from src.dtos.perfiles_dto import PerfilesResponseDTO
 
 def to_perfil_response(perfil: Perfiles) -> PerfilesResponseDTO:
     return PerfilesResponseDTO.model_validate(perfil)
+
