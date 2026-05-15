@@ -3,7 +3,7 @@ from sqlalchemy import Column, Enum, Integer, String, Text
 from src.db.connection import Base
 
 
-class Contenido(Base):
+class Contenidos(Base):
     __tablename__ = "contenidos"
 
     id = Column(Integer, primary_key=True)
