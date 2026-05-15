@@ -10,7 +10,6 @@ class CreateMiListaDTO(BaseModel):
 
 
 class MiListaResponseDTO(BaseModel):
-    id: int
     perfil_id: str
     contenido_id: int
     fecha_agregada: datetime
