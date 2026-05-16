@@ -1,43 +1,40 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.contenido_idiomas_model import ContenidoIdiomas
 
 
-class CuentasRepository:
+class ContenidoIdiomasRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, email: str, plan: str, pin: str) -> ContenidoIdiomas:
+        contenido_idioma = ContenidoIdiomas(email=email, plan=plan, pin=pin)
+        self.db.add(contenido_idioma)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(contenido_idioma)
+        return contenido_idioma
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, contenido_idioma_id: int) -> ContenidoIdiomas | None:
+        return self.db.query(ContenidoIdiomas).filter(ContenidoIdiomas.id == contenido_idioma_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[ContenidoIdiomas]:
+        return self.db.query(ContenidoIdiomas).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
+    def update(self, contenido_idioma_id: int, email: str = None, plan: str = None, pin: str = None) -> ContenidoIdiomas | None:
+        contenido_idioma = self.find_by_id(contenido_idioma_id)
+        if contenido_idioma:
             if email is not None:
-                cuenta.email = email
+                contenido_idioma.email = email
             if plan is not None:
-                cuenta.plan = plan
+                contenido_idioma.plan = plan
             if pin is not None:
-                cuenta.pin = pin
+                contenido_idioma.pin = pin
             self.db.commit()
-        return cuenta
+        return contenido_idioma
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, contenido_idioma_id: int) -> bool:
+        contenido_idioma = self.find_by_id(contenido_idioma_id)
+        if not contenido_idioma:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(contenido_idioma)
         self.db.commit()
         return True

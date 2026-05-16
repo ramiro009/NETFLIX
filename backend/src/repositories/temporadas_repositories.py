@@ -1,43 +1,38 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.temporadas_model import Temporadas
 
 
-class CuentasRepository:
+class TemporadasRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, contenido_id: int, numero: int, anio: int = None) -> Temporadas:
+        temporada = Temporadas(contenido_id=contenido_id, numero=numero, anio=anio)
+        self.db.add(temporada)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(temporada)
+        return temporada
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, temporada_id: int) -> Temporadas | None:
+        return self.db.query(Temporadas).filter(Temporadas.id == temporada_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[Temporadas]:
+        return self.db.query(Temporadas).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
-            if email is not None:
-                cuenta.email = email
-            if plan is not None:
-                cuenta.plan = plan
-            if pin is not None:
-                cuenta.pin = pin
+    def update(self, temporada_id: int, numero: int = None, anio: int = None) -> Temporadas | None:
+        temporada = self.find_by_id(temporada_id)
+        if temporada:
+            if numero is not None:
+                temporada.numero = numero
+            if anio is not None:
+                temporada.anio = anio
             self.db.commit()
-        return cuenta
+        return temporada
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, temporada_id: int) -> bool:
+        temporada = self.find_by_id(temporada_id)
+        if not temporada:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(temporada)
         self.db.commit()
         return True

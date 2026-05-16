@@ -1,43 +1,40 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.calificaciones_model import Calificaciones
 
 
-class CuentasRepository:
+class CalificacionesRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, email: str, plan: str, pin: str) -> Calificaciones:
+        calificacion = Calificaciones(email=email, plan=plan, pin=pin)
+        self.db.add(calificacion)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(calificacion)
+        return calificacion
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, calificacion_id: int) -> Calificaciones | None:
+        return self.db.query(Calificaciones).filter(Calificaciones.id == calificacion_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[Calificaciones]:
+        return self.db.query(Calificaciones).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
+    def update(self, calificacion_id: int, email: str = None, plan: str = None, pin: str = None) -> Calificaciones | None:
+        calificacion = self.find_by_id(calificacion_id)
+        if calificacion:
             if email is not None:
-                cuenta.email = email
+                calificacion.email = email
             if plan is not None:
-                cuenta.plan = plan
+                calificacion.plan = plan
             if pin is not None:
-                cuenta.pin = pin
+                calificacion.pin = pin
             self.db.commit()
-        return cuenta
+        return calificacion
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, calificacion_id: int) -> bool:
+        calificacion = self.find_by_id(calificacion_id)
+        if not calificacion:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(calificacion)
         self.db.commit()
         return True

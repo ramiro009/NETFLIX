@@ -1,43 +1,47 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.contenidos_model import Contenidos
 
 
-class CuentasRepository:
+class ContenidosRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, titulo: str, tipo: str, anio: int, descripcion: str, duracion_min: int, clasificacion_edad: str) -> Contenidos:
+        contenido = Contenidos(
+            titulo=titulo, 
+            tipo=tipo, 
+            anio=anio, 
+            descripcion=descripcion, 
+            duracion_min=duracion_min, 
+            clasificacion_edad=clasificacion_edad
+        )
+        self.db.add(contenido)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(contenido)
+        return contenido
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, contenido_id: int) -> Contenidos | None:
+        return self.db.query(Contenidos).filter(Contenidos.id == contenido_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[Contenidos]:
+        return self.db.query(Contenidos).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
-            if email is not None:
-                cuenta.email = email
-            if plan is not None:
-                cuenta.plan = plan
-            if pin is not None:
-                cuenta.pin = pin
+    def update(self, contenido_id: int, titulo: str = None, descripcion: str = None, clasificacion_edad: str = None) -> Contenidos | None:
+        contenido = self.find_by_id(contenido_id)
+        if contenido:
+            if titulo is not None:
+                contenido.titulo = titulo
+            if descripcion is not None:
+                contenido.descripcion = descripcion
+            if clasificacion_edad is not None:
+                contenido.clasificacion_edad = clasificacion_edad
             self.db.commit()
-        return cuenta
+        return contenido
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, contenido_id: int) -> bool:
+        contenido = self.find_by_id(contenido_id)
+        if not contenido:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(contenido)
         self.db.commit()
         return True

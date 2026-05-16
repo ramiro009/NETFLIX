@@ -1,43 +1,40 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.mi_lista_model import MiLista
 
 
-class CuentasRepository:
+class MiListaRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, email: str, plan: str, pin: str) -> MiLista:
+        mi_lista = MiLista(email=email, plan=plan, pin=pin)
+        self.db.add(mi_lista)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(mi_lista)
+        return mi_lista
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, mi_lista_id: int) -> MiLista | None:
+        return self.db.query(MiLista).filter(MiLista.id == mi_lista_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[MiLista]:
+        return self.db.query(MiLista).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
+    def update(self, mi_lista_id: int, email: str = None, plan: str = None, pin: str = None) -> MiLista | None:
+        mi_lista = self.find_by_id(mi_lista_id)
+        if mi_lista:
             if email is not None:
-                cuenta.email = email
+                mi_lista.email = email
             if plan is not None:
-                cuenta.plan = plan
+                mi_lista.plan = plan
             if pin is not None:
-                cuenta.pin = pin
+                mi_lista.pin = pin
             self.db.commit()
-        return cuenta
+        return mi_lista
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, mi_lista_id: int) -> bool:
+        mi_lista = self.find_by_id(mi_lista_id)
+        if not mi_lista:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(mi_lista)
         self.db.commit()
         return True

@@ -1,43 +1,36 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.generos_model import Generos
 
 
-class CuentasRepository:
+class GenerosRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, nombre: str) -> Generos:
+        genero = Generos(nombre=nombre)
+        self.db.add(genero)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(genero)
+        return genero
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, genero_id: int) -> Generos | None:
+        return self.db.query(Generos).filter(Generos.id == genero_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[Generos]:
+        return self.db.query(Generos).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
-            if email is not None:
-                cuenta.email = email
-            if plan is not None:
-                cuenta.plan = plan
-            if pin is not None:
-                cuenta.pin = pin
+    def update(self, genero_id: int, nombre: str = None) -> Generos | None:
+        genero = self.find_by_id(genero_id)
+        if genero:
+            if nombre is not None:
+                genero.nombre = nombre
             self.db.commit()
-        return cuenta
+        return genero
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, genero_id: int) -> bool:
+        genero = self.find_by_id(genero_id)
+        if not genero:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(genero)
         self.db.commit()
         return True

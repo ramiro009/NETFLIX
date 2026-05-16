@@ -1,43 +1,40 @@
 from sqlalchemy.orm import Session
-from src.db.models.cuentas_model import Cuentas
+from src.db.models.perfiles_model import Perfiles
 
 
-class CuentasRepository:
+class PerfilesRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, email: str, plan: str, pin: str) -> Cuentas:
-        cuenta = Cuentas(email=email, plan=plan, pin=pin)
-        self.db.add(cuenta)
+    def create(self, email: str, plan: str, pin: str) -> Perfiles:
+        perfil = Perfiles(email=email, plan=plan, pin=pin)
+        self.db.add(perfil)
         self.db.commit()
-        self.db.refresh(cuenta)
-        return cuenta
+        self.db.refresh(perfil)
+        return perfil
 
-    def find_by_id(self, cuenta_id: int) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.id == cuenta_id).first()
+    def find_by_id(self, perfil_id: int) -> Perfiles | None:
+        return self.db.query(Perfiles).filter(Perfiles.id == perfil_id).first()
 
-    def find_by_email(self, email: str) -> Cuentas | None:
-        return self.db.query(Cuentas).filter(Cuentas.email == email).first()
+    def list_all(self) -> list[Perfiles]:
+        return self.db.query(Perfiles).all()
 
-    def list_all(self) -> list[Cuentas]:
-        return self.db.query(Cuentas).all()
-
-    def update(self, cuenta_id: int, email: str = None, plan: str = None, pin: str = None) -> Cuentas | None:
-        cuenta = self.find_by_id(cuenta_id)
-        if cuenta:
+    def update(self, perfil_id: int, email: str = None, plan: str = None, pin: str = None) -> Perfiles | None:
+        perfil = self.find_by_id(perfil_id)
+        if perfil:
             if email is not None:
-                cuenta.email = email
+                perfil.email = email
             if plan is not None:
-                cuenta.plan = plan
+                perfil.plan = plan
             if pin is not None:
-                cuenta.pin = pin
+                perfil.pin = pin
             self.db.commit()
-        return cuenta
+        return perfil
 
-    def delete(self, cuenta_id: int) -> bool:
-        cuenta = self.find_by_id(cuenta_id)
-        if not cuenta:
+    def delete(self, perfil_id: int) -> bool:
+        perfil = self.find_by_id(perfil_id)
+        if not perfil:
             return False
-        self.db.delete(cuenta)
+        self.db.delete(perfil)
         self.db.commit()
         return True
