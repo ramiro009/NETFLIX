@@ -8,6 +8,20 @@ class CreateUserDTO(BaseModel):
     age: int
 
 
+class UpdateUserDTO(BaseModel):
+    email: str | None = None
+    password: str | None = None
+    age: int | None = None
+
+
+class DeleteUserDTO(BaseModel):
+    id: int
+
+
+class GetUserDTO(BaseModel):
+    id: int
+
+
 class UserResponseDTO(BaseModel):
     id: int
     email: str

@@ -8,6 +8,20 @@ class CreateTemporadasDTO(BaseModel):
     anio: int
 
 
+class UpdateTemporadasDTO(BaseModel):
+    contenido_id: int | None = None
+    numero: int | None = None
+    anio: int | None = None
+
+
+class DeleteTemporadasDTO(BaseModel):
+    id: int
+
+
+class GetTemporadasDTO(BaseModel):
+    id: int
+
+
 class TemporadasResponseDTO(BaseModel):
     id: int
     contenido_id: int
